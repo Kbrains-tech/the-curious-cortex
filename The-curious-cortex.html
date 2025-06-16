@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta name="google-site-verification" content="IK0gxDlk3fQIIzMN2nCavKvu5gwv4jDAlii1SJ37yBQ" />
+  <title>The Curious Cortex - Daily Psychology Insights</title>
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+  <style>
+    /* CSS Variables with updated color #2602b8 */
+    :root {
+      --color-bg: #f9fafb;
+      --color-text: #222;
+      --color-primary: #2602b8;
+      --color-primary-hover: #4433de;
+      --color-primary-light: #8c85f4;
+      --color-primary-dark-bg: #1901a1;
+      --color-card-bg: white;
+      --color-card-shadow: rgba(38, 2, 184, 0.12);
+      --color-muted-text: #444;
+      --color-footer-bg: #2602b8;
+      --color-footer-text: white;
+      --color-action-save-bg: #8c85f4;
+      --color-action-save-color: #130167;
+      --color-action-save-bg-active: #2602b8;
+      --color-action-save-color-active: white;
+      --color-action-share-bg: #bfbfff;
+      --color-action-share-color: #1a1271;
+      --color-header-bg: #2602b8;
+      --color-header-text: white;
+    }
+    [data-theme="dark"] {
+      --color-bg: #121214;
+      --color-text: #e0e0e0;
+      --color-primary: #8c85f4;
+      --color-primary-hover: #b5b3ff;
+      --color-primary-light: #cac8ff;
+      --color-primary-dark-bg: #2b27b8;
+      --color-card-bg: #1e1e2f;
+      --color-card-shadow: rgba(140, 133, 244, 0.4);
+      --color-muted-text: #bbb;
+      --color-footer-bg: #2b27b8;
+      --color-footer-text: #ddd;
+      --color-action-save-bg: #cac8ff;
+      --color-action-save-color: #1b1a6f;
+      --color-action-save-bg-active: #2b27b8;
+      --color-action-save-color-active: #eee;
+      --color-action-share-bg: #3838ba;
+      --color-action-share-color: #d0d0ff;
+      --color-header-bg: #2b27b8;
+      --color-header-text: #f0eaff;
+    }
+
+    /* Reset & base */
+    *, *::before, *::after {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji';
+      background: var(--color-bg);
+      color: var(--color-text);
+      line-height: 1.6;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      position: relative;
+      padding-bottom: 60px; /* space for bottom fixed buttons */
+    }
+    a {
+      color: var(--color-primary);
+      text-decoration: none;
+      outline-offset: 2px;
+    }
+    a:hover,
+    a:focus {
+      text-decoration: underline;
+      outline-offset: 2px;
+    }
+    h1, h2, h3, h4 {
+      margin-bottom: 0.4em;
+      font-weight: 700;
+      line-height: 1.2;
+      color: var(--color-primary);
+    }
+    h1 {
+      font-size: clamp(2rem, 6vw, 3.2rem);
+      color: #ffffff; /* Title white */
+      user-select: none;
+    }
+    h2 {
+      font-size: clamp(1.4rem, 3vw, 1.8rem);
+      margin-top: 0;
+    }
+    p {
+      margin-top: 0;
+      margin-bottom: 1.25em;
+      font-size: 1rem;
+      color: var(--color-muted-text);
+      max-width: 720px;
+      transition: color 0.3s ease;
+    }
+    ul {
+      max-width: 720px;
+      color: var(--color-muted-text);
+      padding-left: 1.25rem;
+      margin-top: 0;
+    }
+
+    /* Container */
+    .container {
+      max-width: 900px;
+      padding: 0 24px;
+      margin: 0 auto;
+      flex: 1 0 auto;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      align-items: center;
+      text-align: center;
+    }
+
+    /* Header: decreased width by 2cm, sticky with 0.5cm top gap */
+    header {
+      background: var(--color-header-bg);
+      color: var(--color-header-text);
+      padding: 12px 24px 4px;
+      position: sticky;
+      top: 0.5cm;
+      height: 138px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgb(38 2 184 / 0.4);
+      transition: background-color 0.3s ease, color 0.3s ease;
+      width: calc(100% - 2cm);
+      margin-left: 1cm;
+      margin-right: 1cm;
+      box-sizing: border-box;
+      z-index: 1000;
+    }
+    /* Title in center */
+    header > h1 {
+      margin: 0;
+      font-weight: 900;
+      text-shadow: 1px 1px 6px rgba(0,0,0,0.6);
+      line-height: 1.1;
+    }
+    /* Tips/Guide and Scenarios below title */
+    .secondary-toggles {
+      display: flex;
+      gap: 16px;
+      justify-content: center;
+      margin-top: 8px;
+    }
+    .secondary-toggle-btn {
+      background: transparent;
+      border: 2px solid #ffffffaa;
+      color: #ffffffcc;
+      cursor: pointer;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+    }
+    .secondary-toggle-btn.active {
+      background-color: #ffffffdd;
+      color: var(--color-header-bg);
+      border-color: #ffffffdd;
+      font-weight: 700;
+      pointer-events: none;
+    }
+    .secondary-toggle-btn:hover:not(.active),
+    .secondary-toggle-btn:focus:not(.active) {
+      background-color: #ffffffaa;
+      color: var(--color-header-bg);
+      border-color: #ffffffaa;
+      outline: none;
+    }
+
+    /* Fact navigation (Prev/Next) in header top left and right corners */
+    #prevBtn,
+    #nextBtn {
+      position: absolute;
+      top: 16px;
+      background: transparent;
+      border: 2px solid #ffffffaa;
+      color: #ffffffcc;
+      cursor: pointer;
+      padding: 6px 16px;
+      border-radius: 20px;
+      font-size: 1rem;
+      font-weight: 600;
+      user-select: none;
+      transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      z-index: 999;
+    }
+    #prevBtn:disabled,
+    #nextBtn:disabled {
+      border-color: #ffffff55;
+      color: #ffffff55;
+      cursor: not-allowed;
+    }
+    #prevBtn:hover:not(:disabled),
+    #prevBtn:focus:not(:disabled),
+    #nextBtn:hover:not(:disabled),
+    #nextBtn:focus:not(:disabled) {
+      background-color: #ffffffcc;
+      color: var(--color-header-bg);
+      border-color: #ffffffcc;
+      outline: none;
+    }
+    #prevBtn {
+      left: 16px;
+    }
+    #nextBtn {
+      right: 16px;
+    }
+
+    /* Main content: Fact card centered and relatively narrow */
+    main {
+      flex-grow: 1;
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      padding-top: 16px;
+      margin-bottom: 40px; /* space for bottom fixed buttons */
+    }
+    .fact-card {
+      background: var(--color-card-bg);
+      border-radius: 16px;
+      box-shadow: 0 8px 24px var(--color-card-shadow);
+      padding: 28px 32px 40px;
+      display: flex;
+      flex-direction: column;
+      max-width: 640px;
+      width: 100%;
+      color: var(--color-text);
+      position: relative;
+      transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    .fact-text h2 {
+      color: var(--color-primary);
+      margin-bottom: 12px;
+      user-select: text;
+    }
+    .fact-text p {
+      font-size: 1.125rem;
+      color: var(--color-muted-text);
+      margin-bottom: 32px;
+      user-select: text;
+    }
+
+    /* Action buttons container on fact card */
+    .fact-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      user-select: none;
+    }
+    .fact-action-btn {
+      flex: 1 1 130px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 0;
+      font-weight: 700;
+      font-size: 1rem;
+      background: var(--color-primary-light);
+      border: none;
+      border-radius: 28px;
+      color: var(--color-primary-dark-bg);
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      user-select: none;
+    }
+    .fact-action-btn.saved {
+      background: var(--color-primary);
+      color: white;
+    }
+    .fact-action-btn:hover:not(:disabled),
+    .fact-action-btn:focus:not(:disabled) {
+      background-color: var(--color-primary-hover);
+      color: white;
+      outline: none;
+    }
+    .fact-action-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    /* Hide favorites panel and other sections */
+    section.content-section {
+      display: none;
+    }
+    section.content-section.active {
+      display: block;
+    }
+
+    /* Bottom fixed dark mode toggle (bottom right) */
+    #darkModeToggle {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 50%;
+      width: 48px;
+      height: 48px;
+      font-size: 28px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(38, 2, 184, 0.4);
+      transition: background-color 0.3s ease;
+      z-index: 1000;
+      border: none;
+    }
+    #darkModeToggle:hover,
+    #darkModeToggle:focus {
+      background-color: var(--color-primary-hover);
+      outline: none;
+    }
+
+    /* Bottom fixed Today button (bottom left) */
+    #todayBtn {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      background: var(--color-primary);
+      color: white;
+      border-radius: 28px;
+      padding: 10px 20px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      cursor: pointer;
+      box-shadow: 0 4px 12px rgba(38, 2, 184, 0.4);
+      transition: background-color 0.3s ease;
+      border: none;
+      z-index: 1000;
+    }
+    #todayBtn:hover,
+    #todayBtn:focus {
+      background-color: var(--color-primary-hover);
+      outline: none;
+    }
+    #todayBtn .material-icons {
+      font-size: 24px;
+    }
+  </style>
+</head>
+<body>
+  <header role="banner">
+    <h1 tabindex="0" aria-label="The Curious Cortex Title">The Curious Cortex</h1>
+    <div class="secondary-toggles" role="tablist" aria-label="Content Sections Toggle">
+      <button class="secondary-toggle-btn active" id="toggleTips" role="tab" aria-selected="false" aria-controls="tipsSection" tabindex="0">Tips/Guide</button>
+      <button class="secondary-toggle-btn" id="toggleScenarios" role="tab" aria-selected="false" aria-controls="scenariosSection" tabindex="-1">Scenarios</button>
+    </div>
+    <button id="prevBtn" title="Previous Fact" aria-label="Go to Previous Psychology Fact" aria-disabled="false">
+      <span class="material-icons" aria-hidden="true">chevron_left</span> Prev
+    </button>
+    <button id="nextBtn" title="Next Fact" aria-label="Go to Next Psychology Fact" aria-disabled="false">
+      Next <span class="material-icons" aria-hidden="true">chevron_right</span>
+    </button>
+  </header>
+
+  <main class="container" role="main" aria-live="polite">
+    <article class="fact-card" tabindex="0" aria-label="Psychology fact card">
+      <section class="fact-text">
+        <h2 id="factTitle">Loading...</h2>
+        <p id="factDesc">Please wait while we load today's psychology insight.</p>
+      </section>
+      <div class="fact-actions" role="group" aria-label="Actions for psychology fact">
+        <button id="saveBtn" class="fact-action-btn" aria-pressed="false" aria-label="Save this psychology fact to favorites">
+          <span class="material-icons" aria-hidden="true">bookmark_add</span>
+          Save
+        </button>
+        <button id="shareBtn" class="fact-action-btn" aria-label="Share this psychology fact on social media">
+          <span class="material-icons" aria-hidden="true">share</span>
+          Share
+        </button>
+        <button id="openFavoritesBtn" class="fact-action-btn" aria-label="Open Saved Psychology Facts">
+          <span class="material-icons" aria-hidden="true">bookmark</span>
+          Saved Facts
+        </button>
+      </div>
+    </article>
+
+    <!-- Tips/Guide Section (hidden by default) -->
+    <section id="tipsSection" class="content-section" tabindex="0" aria-label="Psychology Tips and Guide" hidden>
+      <article>
+        <h2>Psychology Tips & Guide</h2>
+        <p>Enhance your understanding with practical tips and guides rooted in psychology. Learn how to apply brain hacks and behavior tricks to improve your life and relationships.</p>
+        <ul>
+          <li><strong>Practice mindfulness:</strong> Regularly focus on the present moment to reduce stress and improve clarity.</li>
+          <li><strong>Use positive reinforcement:</strong> Reward yourself or others to encourage desired behaviors.</li>
+          <li><strong>Break tasks into smaller steps:</strong> This reduces overwhelm and increases productivity.</li>
+          <li><strong>Challenge negative thoughts:</strong> Reframe pessimistic thinking to foster positivity and resilience.</li>
+        </ul>
+      </article>
+    </section>
+
+    <!-- Scenarios Section (hidden by default) -->
+    <section id="scenariosSection" class="content-section" tabindex="0" aria-label="Psychology Scenarios" hidden>
+      <article>
+        <h2>Psychology Scenarios</h2>
+        <p>Explore scenarios based on psychological phenomena and think about how you might respond or apply the concepts here.</p>
+        <ul>
+          <li><strong>Scenario 1:</strong> You notice a co-worker avoiding eye contact and speaking less during meetings. What psychological concepts might explain this behavior?</li>
+          <li><strong>Scenario 2:</strong> A friend struggles with procrastination even though they want to succeed. How can psychological strategies help?</li>
+          <li><strong>Scenario 3:</strong> You find yourself influenced by an initial price anchor while shopping. How does the anchoring effect affect decision making?</li>
+          <li><strong>Scenario 4:</strong> You feel nervous at a social event because you think others notice every small mistake. How can awareness of the spotlight effect help you?</li>
+        </ul>
+      </article>
+    </section>
+  </main>
+
+  <button id="darkModeToggle" aria-label="Toggle Dark Mode" aria-pressed="false" title="Toggle Dark Mode">
+    <span class="material-icons" aria-hidden="true">dark_mode</span>
+  </button>
+
+  <button id="todayBtn" aria-label="Go to Today's Psychology Fact" title="Today's Fact">
+    <span class="material-icons" aria-hidden="true">today</span>
+    Today
+  </button>
+
+<script>
+  // Data: Psychology facts
+  const psychologyFacts = [
+    {
+      id: 'fact-1',
+      title: 'The Pratfall Effect',
+      description: 'Making small mistakes can increase your likeability, as it makes you seem more human and relatable.'
+    },
+    {
+      id: 'fact-2',
+      title: 'Cognitive Dissonance',
+      description: 'When your actions contradict your beliefs, your brain strives to reduce discomfort by changing attitudes or behavior.'
+    },
+    {
+      id: 'fact-3',
+      title: 'The Spotlight Effect',
+      description: 'People tend to overestimate how much others notice their actions or appearance.'
+    },
+    {
+      id: 'fact-4',
+      title: 'Memory Palace Technique',
+      description: 'A mnemonic device where you visualize placing items you want to remember in specific locations to aid recall.'
+    },
+    {
+      id: 'fact-5',
+      title: 'The Bystander Effect',
+      description: 'Individuals are less likely to help a victim when other people are present, due to diffusion of responsibility.'
+    },
+    {
+      id: 'fact-6',
+      title: 'Confirmation Bias',
+      description: 'People favor information that confirms their existing beliefs and ignore contrary evidence.'
+    },
+    {
+      id: 'fact-7',
+      title: 'The Anchoring Effect',
+      description: 'Initial information heavily influences your judgments and decisions, even if it is irrelevant.'
+    }
+  ];
+
+  let currentIndex = 0;
+
+  // Load favorites from localStorage
+  function loadFavorites() {
+    const favRaw = localStorage.getItem('cc-favorites');
+    return favRaw ? JSON.parse(favRaw) : [];
+  }
+  // Save favorites to localStorage
+  function saveFavorites(favorites) {
+    localStorage.setItem('cc-favorites', JSON.stringify(favorites));
+  }
+
+  // Check if current fact is saved
+  function isCurrentSaved() {
+    const favorites = loadFavorites();
+    return favorites.includes(psychologyFacts[currentIndex].id);
+  }
+
+  // Update fact display
+  function updateFact(index) {
+    if (index < 0 || index >= psychologyFacts.length) return;
+    currentIndex = index;
+    const fact = psychologyFacts[currentIndex];
+    document.getElementById('factTitle').textContent = fact.title;
+    document.getElementById('factDesc').textContent = fact.description;
+
+    // Update prev/next buttons
+    const prevBtn = document.getElementById('prevBtn');
+    const nextBtn = document.getElementById('nextBtn');
+    prevBtn.disabled = currentIndex === 0;
+    nextBtn.disabled = currentIndex === psychologyFacts.length - 1;
+    prevBtn.setAttribute('aria-disabled', prevBtn.disabled.toString());
+    nextBtn.setAttribute('aria-disabled', nextBtn.disabled.toString());
+
+    // Update save button state
+    const saveBtn = document.getElementById('saveBtn');
+    if (isCurrentSaved()) {
+      saveBtn.classList.add('saved');
+      saveBtn.setAttribute('aria-pressed', 'true');
+      saveBtn.innerHTML = '<span class="material-icons" aria-hidden="true">bookmark</span> Saved';
+    } else {
+      saveBtn.classList.remove('saved');
+      saveBtn.setAttribute('aria-pressed', 'false');
+      saveBtn.innerHTML = '<span class="material-icons" aria-hidden="true">bookmark_add</span> Save';
+    }
+  }
+
+  // Save or unsave current fact
+  function toggleSave() {
+    const favorites = loadFavorites();
+    const currentId = psychologyFacts[currentIndex].id;
+    const saveBtn = document.getElementById('saveBtn');
+    if (favorites.includes(currentId)) {
+      const newFavs = favorites.filter(id => id !== currentId);
+      saveFavorites(newFavs);
+      saveBtn.classList.remove('saved');
+      saveBtn.setAttribute('aria-pressed', 'false');
+      saveBtn.innerHTML = '<span class="material-icons" aria-hidden="true">bookmark_add</span> Save';
+    } else {
+      favorites.push(currentId);
+      saveFavorites(favorites);
+      saveBtn.classList.add('saved');
+      saveBtn.setAttribute('aria-pressed', 'true');
+      saveBtn.innerHTML = '<span class="material-icons" aria-hidden="true">bookmark</span> Saved';
+    }
+  }
+
+  // Share current fact - Web Share API or fallback
+  function shareFact() {
+    const fact = psychologyFacts[currentIndex];
+    const shareData = {
+      title: fact.title,
+      text: fact.description,
+      url: window.location.href + '#fact=' + fact.id,
+    };
+    if (navigator.share) {
+      navigator.share(shareData).catch(() => {
+        alert('Sharing was cancelled or failed.');
+      });
+    } else {
+      navigator.clipboard.writeText(shareData.url).then(() => {
+        alert('Link copied to clipboard. You can share it with others!');
+      }).catch(() => {
+        alert('Sharing not supported and couldn\'t copy link.');
+      });
+    }
+  }
+
+  // Switch sections of Tips/Scenarios
+  function switchSecondaryToggle(target) {
+    document.querySelectorAll('.secondary-toggle-btn').forEach(btn => {
+      btn.classList.remove('active');
+      btn.setAttribute('aria-selected', 'false');
+      btn.tabIndex = -1;
+    });
+    target.classList.add('active');
+    target.setAttribute('aria-selected', 'true');
+    target.tabIndex = 0;
+
+    // Show/ hide sections below title
+    const tipsSection = document.getElementById('tipsSection');
+    const scenariosSection = document.getElementById('scenariosSection');
+    if (target.id === 'toggleTips') {
+      tipsSection.hidden = false;
+      scenariosSection.hidden = true;
+    } else if (target.id === 'toggleScenarios') {
+      tipsSection.hidden = true;
+      scenariosSection.hidden = false;
+    }
+  }
+
+  // Event listeners
+  document.getElementById('prevBtn').addEventListener('click', () => {
+    if (currentIndex > 0) {
+      updateFact(currentIndex - 1);
+    }
+  });
+  document.getElementById('nextBtn').addEventListener('click', () => {
+    if (currentIndex < psychologyFacts.length -1) {
+      updateFact(currentIndex + 1);
+    }
+  });
+  document.getElementById('saveBtn').addEventListener('click', toggleSave);
+  document.getElementById('shareBtn').addEventListener('click', shareFact);
+
+  // Open saved facts alert for now (favorite panel hidden as per last request)
+  document.getElementById('openFavoritesBtn').addEventListener('click', () => {
+    const favorites = loadFavorites();
+    if(favorites.length === 0) {
+      alert('No saved facts yet.');
+    } else {
+      alert('Saved facts:\n' + favorites.map(id => psychologyFacts.find(f=>f.id === id)?.title).filter(Boolean).join('\n'));
+    }
+  });
+
+  // Today's fact button
+  document.getElementById('todayBtn').addEventListener('click', () => {
+    updateFact(psychologyFacts.length - 1);
+  });
+
+  // Secondary toggles for tips/scenarios
+  document.getElementById('toggleTips').addEventListener('click', (e) => {
+    switchSecondaryToggle(e.target);
+  });
+  document.getElementById('toggleScenarios').addEventListener('click', (e) => {
+    switchSecondaryToggle(e.target);
+  });
+
+  // Dark mode toggle bottom right
+  const darkModeToggle = document.getElementById('darkModeToggle');
+  function applyTheme(theme) {
+    if(theme === 'dark') {
+      document.documentElement.setAttribute('data-theme', 'dark');
+      darkModeToggle.setAttribute('aria-pressed', 'true');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'light');
+      darkModeToggle.setAttribute('aria-pressed', 'false');
+    }
+  }
+  function toggleDarkMode() {
+    const currentTheme = document.documentElement.getAttribute('data-theme');
+    if (currentTheme === 'dark') {
+      applyTheme('light');
+      localStorage.setItem('curiousCortexTheme', 'light');
+    } else {
+      applyTheme('dark');
+      localStorage.setItem('curiousCortexTheme', 'dark');
+    }
+  }
+  darkModeToggle.addEventListener('click', toggleDarkMode);
+
+  // on page load
+  window.addEventListener('DOMContentLoaded', () => {
+    const storedTheme = localStorage.getItem('curiousCortexTheme');
+    if(storedTheme) {
+      applyTheme(storedTheme);
+    } else {
+      const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      applyTheme(prefersDark ? 'dark' : 'light');
+    }
+    updateFact(psychologyFacts.length - 1);
+    // Show Tips section initially
+    switchSecondaryToggle(document.getElementById('toggleTips'));
+  });
+</script>
+</body>
+</html>
+
